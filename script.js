@@ -56,25 +56,9 @@ const renderCountry = function (data) {
 //A better solution is to use Promises
 
 const getCountryData = function (country) {
-  //When executing the fetch funtion, to fetch data from an API for example, a Promise is returned immediately.
-  // The promise starts with pending state but eventually moves to fulfilled (once it has the data from the API) or rejected
-  const request = fetch(`https://restcountries.com/v3.1/name/${country}`);
-  console.log(request);
-
-  //Handle the fullfilled state
-  //We pass a callback function, which will be executed as soon as the promise is fullfilled
-  //The function will always have the response/result of the fullfilled promise(Object) as its argument
-  const responseJSONPromise = request.then(function (response) {
-    console.log(response);
-    //.json() is available in all response/result Objects from fetch, and it is also a promise.
-    return response.json();
-  });
-
-  responseJSONPromise.then(function (data) {
-    console.log(data); //Finally the data of the Countries API
-    renderCountry(data[0]);
-  });
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then((response) => response.json())
+    .then((data) => renderCountry(data[0]));
 };
-
 
 getCountryData("germany");
